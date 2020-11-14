@@ -10,10 +10,10 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/haidaochuan1123/go-mysql/mysql"
+	"github.com/haidaochuan1123/go-mysql/test_util/test_keys"
 	. "github.com/pingcap/check"
 	"github.com/pingcap/errors"
-	"github.com/siddontang/go-mysql/mysql"
-	"github.com/siddontang/go-mysql/test_util/test_keys"
 	log "github.com/sirupsen/logrus"
 )
 

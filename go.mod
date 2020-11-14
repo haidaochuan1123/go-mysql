@@ -16,6 +16,6 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/shopspring/decimal v1.2.0
 	github.com/siddontang/go v0.0.0-20180604090527-bdc77568d726
-	github.com/siddontang/go-mysql v1.1.0
+	github.com/haidaochuan1123/go-mysql v1.1.0
 	github.com/sirupsen/logrus v1.7.0
 )

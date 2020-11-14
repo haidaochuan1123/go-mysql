@@ -5,12 +5,12 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/haidaochuan1123/go-mysql/mysql"
+	"github.com/haidaochuan1123/go-mysql/replication"
+	"github.com/haidaochuan1123/go-mysql/schema"
 	"github.com/pingcap/errors"
 	"github.com/pingcap/parser/ast"
 	uuid "github.com/satori/go.uuid"
-	"github.com/siddontang/go-mysql/mysql"
-	"github.com/siddontang/go-mysql/replication"
-	"github.com/siddontang/go-mysql/schema"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -7,8 +7,8 @@ import (
 	"os/exec"
 	"strings"
 
+	. "github.com/haidaochuan1123/go-mysql/mysql"
 	"github.com/pingcap/errors"
-	. "github.com/siddontang/go-mysql/mysql"
 	log "github.com/sirupsen/logrus"
 )
 

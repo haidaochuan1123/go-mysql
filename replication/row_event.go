@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"time"
 
+	. "github.com/haidaochuan1123/go-mysql/mysql"
 	"github.com/pingcap/errors"
 	"github.com/shopspring/decimal"
-	. "github.com/siddontang/go-mysql/mysql"
 	"github.com/siddontang/go/hack"
 	log "github.com/sirupsen/logrus"
 )

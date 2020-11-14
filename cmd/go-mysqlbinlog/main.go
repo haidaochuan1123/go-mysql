@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/haidaochuan1123/go-mysql/mysql"
+	"github.com/haidaochuan1123/go-mysql/replication"
 	"github.com/pingcap/errors"
-	"github.com/siddontang/go-mysql/mysql"
-	"github.com/siddontang/go-mysql/replication"
 )
 
 var host = flag.String("host", "127.0.0.1", "MySQL host")
