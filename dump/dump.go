@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"strings"
 
-	. "github.com/haidaochuan1123/go-mysql/mysql"
+	"github.com/haidaochuan1123/go-mysql/mysql"
 	"github.com/pingcap/errors"
 	log "github.com/sirupsen/logrus"
 )
@@ -59,7 +59,7 @@ func NewDumper(executionPath string, addr string, user string, password string) 
 	d.Password = password
 	d.Tables = make([]string, 0, 16)
 	d.Databases = make([]string, 0, 16)
-	d.Charset = DEFAULT_CHARSET
+	d.Charset = mysql.DEFAULT_CHARSET
 	d.IgnoreTables = make(map[string][]string)
 	d.ExtraOptions = make([]string, 0, 5)
 	d.masterDataSkipped = false

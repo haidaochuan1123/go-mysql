@@ -9,6 +9,7 @@ import (
 	"github.com/siddontang/go/hack"
 )
 
+//Resultset 查询结果集
 type Resultset struct {
 	Fields     []*Field
 	FieldNames map[string]int
@@ -63,14 +64,17 @@ func (r *Resultset) reset(count int) {
 	}
 }
 
+// RowNumber 结果集行数
 func (r *Resultset) RowNumber() int {
 	return len(r.Values)
 }
 
+// ColumnNumber 结果集列数
 func (r *Resultset) ColumnNumber() int {
 	return len(r.Fields)
 }
 
+// GetValue 获取值
 func (r *Resultset) GetValue(row, column int) (interface{}, error) {
 	if row >= len(r.Values) || row < 0 {
 		return nil, errors.Errorf("invalid row index %d", row)
@@ -86,9 +90,9 @@ func (r *Resultset) GetValue(row, column int) (interface{}, error) {
 func (r *Resultset) NameIndex(name string) (int, error) {
 	if column, ok := r.FieldNames[name]; ok {
 		return column, nil
-	} else {
-		return 0, errors.Errorf("invalid field name %s", name)
 	}
+
+	return 0, errors.Errorf("invalid field name %s", name)
 }
 
 func (r *Resultset) GetValueByName(row int, name string) (interface{}, error) {

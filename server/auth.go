@@ -17,13 +17,13 @@ var ErrAccessDenied = errors.New("access denied")
 
 func (c *Conn) compareAuthData(authPluginName string, clientAuthData []byte) error {
 	switch authPluginName {
-	case AUTH_NATIVE_PASSWORD:
+	case mysql.AUTH_NATIVE_PASSWORD:
 		if err := c.acquirePassword(); err != nil {
 			return err
 		}
 		return c.compareNativePasswordAuthData(clientAuthData, c.password)
 
-	case AUTH_CACHING_SHA2_PASSWORD:
+	case mysql.AUTH_CACHING_SHA2_PASSWORD:
 		if err := c.compareCacheSha2PasswordAuthData(clientAuthData); err != nil {
 			return err
 		}
@@ -32,7 +32,7 @@ func (c *Conn) compareAuthData(authPluginName string, clientAuthData []byte) err
 		}
 		return nil
 
-	case AUTH_SHA256_PASSWORD:
+	case mysql.AUTH_SHA256_PASSWORD:
 		if err := c.acquirePassword(); err != nil {
 			return err
 		}
@@ -56,7 +56,7 @@ func (c *Conn) acquirePassword() error {
 		return err
 	}
 	if !found {
-		return NewDefaultError(ER_NO_SUCH_USER, c.user, c.RemoteAddr().String())
+		return mysql.NewDefaultError(mysql.ER_NO_SUCH_USER, c.user, c.RemoteAddr().String())
 	}
 	c.password = password
 	return nil
@@ -83,7 +83,7 @@ func scrambleValidation(cached, nonce, scramble []byte) bool {
 }
 
 func (c *Conn) compareNativePasswordAuthData(clientAuthData []byte, password string) error {
-	if bytes.Equal(CalcPassword(c.salt, []byte(c.password)), clientAuthData) {
+	if bytes.Equal(mysql.CalcPassword(c.salt, []byte(c.password)), clientAuthData) {
 		return nil
 	}
 	return ErrAccessDenied
@@ -149,7 +149,7 @@ func (c *Conn) compareCacheSha2PasswordAuthData(clientAuthData []byte) error {
 		if err := c.acquirePassword(); err != nil {
 			return err
 		}
-		if bytes.Equal(CalcCachingSha2Password(c.salt, c.password), clientAuthData) {
+		if bytes.Equal(mysql.CalcCachingSha2Password(c.salt, c.password), clientAuthData) {
 			// 'fast' auth: write "More data" packet (first byte == 0x01) with the second byte = 0x03
 			return c.writeAuthMoreDataFastAuth()
 		}

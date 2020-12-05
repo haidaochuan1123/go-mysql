@@ -8,10 +8,12 @@ import (
 	"github.com/pingcap/errors"
 )
 
+// MysqlGTIDHandler MySQL gtid模式下切换实现
 type MysqlGTIDHandler struct {
 	Handler
 }
 
+// Promote 提升为主库
 func (h *MysqlGTIDHandler) Promote(s *Server) error {
 	if err := h.WaitRelayLogDone(s); err != nil {
 		return errors.Trace(err)
@@ -24,6 +26,7 @@ func (h *MysqlGTIDHandler) Promote(s *Server) error {
 	return nil
 }
 
+// FindBestSlaves 对比binlog位点，选择最近的节点做为主库
 func (h *MysqlGTIDHandler) FindBestSlaves(slaves []*Server) ([]*Server, error) {
 	// MHA use Relay_Master_Log_File and Exec_Master_Log_Pos to determind which is the best slave
 
@@ -67,6 +70,7 @@ const changeMasterToWithAuto = `CHANGE MASTER TO
     MASTER_USER = "%s", MASTER_PASSWORD = "%s", 
     MASTER_AUTO_POSITION = 1`
 
+// ChangeMasterTo 修改其它从节点的主库信息
 func (h *MysqlGTIDHandler) ChangeMasterTo(s *Server, m *Server) error {
 	if err := h.WaitRelayLogDone(s); err != nil {
 		return errors.Trace(err)
@@ -94,6 +98,7 @@ func (h *MysqlGTIDHandler) ChangeMasterTo(s *Server, m *Server) error {
 	return nil
 }
 
+// WaitRelayLogDone 等待relaylog 指定完毕
 func (h *MysqlGTIDHandler) WaitRelayLogDone(s *Server) error {
 	if err := s.StopSlaveIOThread(); err != nil {
 		return errors.Trace(err)
@@ -111,6 +116,7 @@ func (h *MysqlGTIDHandler) WaitRelayLogDone(s *Server) error {
 	return h.waitUntilAfterGTIDs(s, retrieved)
 }
 
+// WaitCatchMaster 等待追上主库
 func (h *MysqlGTIDHandler) WaitCatchMaster(s *Server, m *Server) error {
 	r, err := m.MasterStatus()
 	if err != nil {
@@ -122,6 +128,7 @@ func (h *MysqlGTIDHandler) WaitCatchMaster(s *Server, m *Server) error {
 	return h.waitUntilAfterGTIDs(s, masterGTIDSet)
 }
 
+// CheckGTIDMode 判断是否开启gtid
 func (h *MysqlGTIDHandler) CheckGTIDMode(slaves []*Server) error {
 	for i := 0; i < len(slaves); i++ {
 		mode, err := slaves[i].MysqlGTIDMode()

@@ -2,6 +2,7 @@ package mysql
 
 import "github.com/pingcap/errors"
 
+// GTIDSet 定义GTID接口
 type GTIDSet interface {
 	String() string
 

@@ -3,7 +3,7 @@ package server
 import (
 	"fmt"
 
-	"github.com/haidaochuan1123/go-mysql/mysql"
+	. "github.com/haidaochuan1123/go-mysql/mysql"
 )
 
 func (c *Conn) writeOK(r *Result) error {
@@ -18,7 +18,7 @@ func (c *Conn) writeOK(r *Result) error {
 	data = append(data, OK_HEADER)
 
 	data = append(data, PutLengthEncodedInt(r.AffectedRows)...)
-	data = append(data, PutLengthEncodedInt(r.InsertId)...)
+	data = append(data, PutLengthEncodedInt(r.InsertID)...)
 
 	if c.capability&CLIENT_PROTOCOL_41 > 0 {
 		data = append(data, byte(r.Status), byte(r.Status>>8))

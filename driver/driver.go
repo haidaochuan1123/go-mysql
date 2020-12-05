@@ -164,7 +164,7 @@ type result struct {
 }
 
 func (r *result) LastInsertId() (int64, error) {
-	return int64(r.Result.InsertId), nil
+	return int64(r.Result.InsertID), nil
 }
 
 func (r *result) RowsAffected() (int64, error) {

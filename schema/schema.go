@@ -148,6 +148,7 @@ func (ta *Table) AddColumn(name string, columnType string, collation string, ext
 	}
 }
 
+// 根据字段类型获取字段长度 varchar(10)
 func getSizeFromColumnType(columnType string) uint {
 	startIndex := strings.Index(columnType, "(")
 	if startIndex < 0 {

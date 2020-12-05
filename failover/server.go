@@ -1,11 +1,18 @@
+// Title: failover/server.go
+// Description: 主从切换相关操作
+
 package failover
 
 import (
 	"fmt"
 
 	"github.com/haidaochuan1123/go-mysql/client"
-	. "github.com/haidaochuan1123/go-mysql/mysql"
+	"github.com/haidaochuan1123/go-mysql/mysql"
 )
+
+type Result = mysql.Result
+type Resultset = mysql.Resultset
+type Position = mysql.Position
 
 type User struct {
 	Name     string
@@ -49,9 +56,9 @@ func (s *Server) Execute(cmd string, args ...interface{}) (r *Result, err error)
 		}
 
 		r, err = s.conn.Execute(cmd, args...)
-		if err != nil && ErrorEqual(err, ErrBadConn) {
+		if err != nil && mysql.ErrorEqual(err, mysql.ErrBadConn) {
 			return
-		} else if ErrorEqual(err, ErrBadConn) {
+		} else if mysql.ErrorEqual(err, mysql.ErrBadConn) {
 			s.conn = nil
 			continue
 		} else {

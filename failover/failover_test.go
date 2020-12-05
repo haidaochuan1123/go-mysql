@@ -172,5 +172,5 @@ func (s *failoverTestSuite) checkInsert(c *C, m *Server, name string) uint64 {
 	r, err := m.Execute("INSERT INTO test.go_mysql_test (name) VALUES (?)", name)
 	c.Assert(err, IsNil)
 
-	return r.InsertId
+	return r.InsertID
 }

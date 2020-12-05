@@ -1,3 +1,6 @@
+// @Title: mysql/util.go
+// @Description: mysql密码认证相关处理逻辑
+
 package mysql
 
 import (

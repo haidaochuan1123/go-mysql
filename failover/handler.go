@@ -1,5 +1,6 @@
 package failover
 
+// Handler 主从故障切换处理接口
 type Handler interface {
 	// Promote slave s to master
 	Promote(s *Server) error

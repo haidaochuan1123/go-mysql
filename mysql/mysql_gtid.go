@@ -52,11 +52,12 @@ func parseInterval(str string) (i Interval, err error) {
 func (i Interval) String() string {
 	if i.Stop == i.Start+1 {
 		return fmt.Sprintf("%d", i.Start)
-	} else {
-		return fmt.Sprintf("%d-%d", i.Start, i.Stop-1)
 	}
+
+	return fmt.Sprintf("%d-%d", i.Start, i.Stop-1)
 }
 
+// IntervalSlice gtid事务列表
 type IntervalSlice []Interval
 
 func (s IntervalSlice) Len() int {
@@ -77,10 +78,12 @@ func (s IntervalSlice) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
+// Sort 事务ID排序
 func (s IntervalSlice) Sort() {
 	sort.Sort(s)
 }
 
+// Normalize 对事务ID进行排序并去除重叠
 func (s IntervalSlice) Normalize() IntervalSlice {
 	var n IntervalSlice
 	if len(s) == 0 {
@@ -155,6 +158,7 @@ func (s IntervalSlice) Compare(o IntervalSlice) int {
 	}
 }
 
+// UUIDSet GTID
 // Refer http://dev.mysql.com/doc/refman/5.6/en/replication-gtids-concepts.html
 type UUIDSet struct {
 	SID uuid.UUID
@@ -162,6 +166,7 @@ type UUIDSet struct {
 	Intervals IntervalSlice
 }
 
+// ParseUUIDSet 解析GTID
 func ParseUUIDSet(str string) (*UUIDSet, error) {
 	str = strings.TrimSpace(str)
 	sep := strings.Split(str, ":")
@@ -189,6 +194,7 @@ func ParseUUIDSet(str string) (*UUIDSet, error) {
 	return s, nil
 }
 
+// NewUUIDSet 初始化GTID
 func NewUUIDSet(sid uuid.UUID, in ...Interval) *UUIDSet {
 	s := new(UUIDSet)
 	s.SID = sid
@@ -432,7 +438,7 @@ func (s *MysqlGTIDSet) String() string {
 		sets = append(sets, set.String())
 	}
 	sort.Strings(sets)
-	
+
 	sep := ""
 	for _, set := range sets {
 		buf.WriteString(sep)

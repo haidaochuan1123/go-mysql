@@ -43,7 +43,7 @@ func (c *Conn) handleOKPacket(data []byte) (*Result, error) {
 
 	r.AffectedRows, _, n = LengthEncodedInt(data[pos:])
 	pos += n
-	r.InsertId, _, n = LengthEncodedInt(data[pos:])
+	r.InsertID, _, n = LengthEncodedInt(data[pos:])
 	pos += n
 
 	if c.capability&CLIENT_PROTOCOL_41 > 0 {
